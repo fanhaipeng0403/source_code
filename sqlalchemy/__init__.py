@@ -373,6 +373,38 @@ from .sql import (
 # 3.特定dialects数据库的特定类型
 from .types import (
 
+    #####定制类型
+    # https://docs.sqlalchemy.org/en/latest/core/custom_types.html#typedecorator-recipes
+    TypeDecorator,
+    # ,进入数据库时，自动转换，出来数据库时候，自动转换
+    # https://stackoverflow.com/questions/49652698/sqlalchemy-typedecorator-does-not-work
+
+    # from sqlalchemy.types import TypeDecorator, VARCHAR
+    # import json
+    #
+    # class JSONEncodedDict(TypeDecorator):
+    #
+    #     impl = VARCHAR
+    #
+    #     def process_bind_param(self, value, dialect):
+    #         if value is not None:
+    #             value = json.dumps(value)
+    #
+    #         return value
+    #
+    #     def process_result_value(self, value, dialect):
+    #         if value is not None:
+    #             value = json.loads(value)
+
+    ###########################################################################
+
+    # class AwareDateTime(types.TypeDecorator):
+    #     impl = ArrowType
+    #
+    #     def process_result_value(self, value, _):
+    #         if value is not None:
+    #             return value.to(app.config['APP_TIMEZONE'])
+
     # 第一种 兼容多个后端的数据库，并且和Python内置数据结构关联 ,如String,特点，首字母大写，其余小写
     #########################################################################################################################################
     # 整型
@@ -420,7 +452,6 @@ from .types import (
     INT,  # 4个字节
     BIGINT,  # 存储大小为 8 个字节
 
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # binary 与 varbinary 类型和char与varchar类型是相似的，只是他们存储的是二进制数据，也就是说他们是包含字节流而不是字符流，他们有二进制字符的集合和顺序，他们的对比，排序是基于字节的数值进行的
     # binary与varbinary的最大长度和char与varchar是一样的，只不过他们是定义字节长度，而char和varchar对应的是字符长度
@@ -447,7 +478,6 @@ from .types import (
     NCHAR,
     NVARCHAR,
     REAL,
-    TypeDecorator,
 
 )
 
