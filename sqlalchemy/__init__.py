@@ -372,7 +372,7 @@ from .sql import (
 # 2.写什么 create table就是什么，如VARCHAR,特点，全大写
 # 3.特定dialects数据库的特定类型
 from .types import (
-
+# 模糊类型，具体类型，专属类型,定制类型
     #####定制类型
     # https://docs.sqlalchemy.org/en/latest/core/custom_types.html#typedecorator-recipes
     TypeDecorator,
@@ -409,7 +409,8 @@ from .types import (
     #########################################################################################################################################
     # 整型
     SmallInteger,
-    BigInteger,
+    BigInteger,  # 通常在DDL中生成一个``BIGINT``，否则就像普通的一样：Python：`.Integer`。
+    # BI用的BIGINT可能太明确了
     Integer,
     # 浮点型
     Float,  # 浮点小数.
@@ -451,7 +452,6 @@ from .types import (
     INTEGER,
     INT,  # 4个字节
     BIGINT,  # 存储大小为 8 个字节
-
 
     # binary 与 varbinary 类型和char与varchar类型是相似的，只是他们存储的是二进制数据，也就是说他们是包含字节流而不是字符流，他们有二进制字符的集合和顺序，他们的对比，排序是基于字节的数值进行的
     # binary与varbinary的最大长度和char与varchar是一样的，只不过他们是定义字节长度，而char和varchar对应的是字符长度
