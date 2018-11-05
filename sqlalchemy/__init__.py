@@ -6,6 +6,28 @@
 # the MIT License: http://www.opensource.org/licenses/mit-license.php
 
 
+from .engine import create_engine, engine_from_config
+from .inspection import inspect
+from .schema import (
+    CheckConstraint,
+    Column,
+    ColumnDefault,
+    Constraint,
+    DefaultClause,
+    FetchedValue,
+    ForeignKey,
+    ForeignKeyConstraint,
+    Index,
+    MetaData,
+    PassiveDefault,
+    PrimaryKeyConstraint,
+    Sequence,
+    Table,
+    ThreadLocalMetaData,
+    UniqueConstraint,
+    DDL,
+    BLANK_SCHEMA
+)
 from .sql import (
     alias,
     all_,
@@ -56,8 +78,7 @@ from .sql import (
     union_all,
     update,
     within_group,
-    )
-
+)
 from .types import (
     ARRAY,
     BIGINT,
@@ -102,33 +123,7 @@ from .types import (
     UnicodeText,
     VARBINARY,
     VARCHAR,
-    )
-
-
-from .schema import (
-    CheckConstraint,
-    Column,
-    ColumnDefault,
-    Constraint,
-    DefaultClause,
-    FetchedValue,
-    ForeignKey,
-    ForeignKeyConstraint,
-    Index,
-    MetaData,
-    PassiveDefault,
-    PrimaryKeyConstraint,
-    Sequence,
-    Table,
-    ThreadLocalMetaData,
-    UniqueConstraint,
-    DDL,
-    BLANK_SCHEMA
 )
-
-
-from .inspection import inspect
-from .engine import create_engine, engine_from_config
 
 __version__ = '1.2.7'
 
@@ -139,10 +134,21 @@ def __go(lcls):
     from . import events
     from . import util as _sa_util
 
+    ### 判断是否是模块
     import inspect as _inspect
 
+    # sorted([i for i in range(5)])
+    # sorted(i for i in range(5))
+    # 可省略（）
     __all__ = sorted(name for name, obj in lcls.items()
                      if not (name.startswith('_') or _inspect.ismodule(obj)))
 
     _sa_util.dependencies.resolve_all("sqlalchemy")
+
+
 __go(locals())
+
+
+## 只导出变量或者函数名，像下面这样模块或者内置的属性,以及私有变量（比_开头的），将过滤掉
+# ['__builtins__', '__cached__', '__doc__', '__file__', '__go', '__loader__', '__name__', '__package__', '__spec__']
+
