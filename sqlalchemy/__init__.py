@@ -6,8 +6,11 @@
 # the MIT License: http://www.opensource.org/licenses/mit-license.php
 
 
+##### 数据库引擎，处理连接等
 from .engine import create_engine, engine_from_config
+###  检查监测功能，它在Core和ORM中提供有关各种SQLAlchemy对象的运行时信息。
 from .inspection import inspect
+#### 表的结构 ˈskiːmə
 from .schema import (
     CheckConstraint,
     Column,
@@ -28,6 +31,7 @@ from .schema import (
     DDL,
     BLANK_SCHEMA
 )
+#####结构化查询语言
 from .sql import (
     alias,
     all_,
@@ -79,6 +83,8 @@ from .sql import (
     update,
     within_group,
 )
+
+####字段类型
 from .types import (
     ARRAY,
     BIGINT,
