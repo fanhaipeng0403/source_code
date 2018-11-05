@@ -280,6 +280,9 @@ from .schema import (
     #
     # metadata.create_all()
 
+    # with engine.connect() as connect:
+    # result= conn.execute( select([users.c.name, users.c.fullname])
+
     # 第二种ORM
 
     # engine = create_engine('sqlite:///./cnblogblog.db', echo=True)
@@ -301,9 +304,13 @@ from .schema import (
     Table,
     ThreadLocalMetaData,
 
+    # 第三种：
+    # 混合
+
 )
 #####结构化查询语言
 from .sql import (
+    ###用在 result= conn.execute( select([users.c.name, users.c.fullname])这样的sql expression language中
     alias,
     all_,
     and_,
@@ -356,50 +363,92 @@ from .sql import (
 )
 
 ####字段类型
+# http://www.codexiu.cn/python/SQLAlchemy%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/532/
+##### 这里只介绍 sqlalchemy.types.* 中的类型, SQL 标准类型方面, 是写什么最后生成的 DDL 语句就是什么, 比如 BIGINT, BLOG 这些, 但是这些类型并不一定在所有数据库中都有支持.  除此而外, SQLAlchemy  也支持一些特定数据库的特定类型, 这些需要从具体的 dialects 实现里导入.
+
+# 有三种概念
+
+# 1.兼容多个后端的数据库，并且和Python内置数据结构关联 ,如String,特点，首字母大写，其余小写
+# 2.写什么 create table就是什么，如VARCHAR,特点，全大写
+# 3.特定dialects数据库的特定类型
 from .types import (
-    ARRAY,
-    BIGINT,
-    BINARY,
-    BLOB,
-    BOOLEAN,
-    BigInteger,
-    Binary,
-    Boolean,
-    CHAR,
-    CLOB,
-    DATE,
-    DATETIME,
-    DECIMAL,
-    Date,
-    DateTime,
-    Enum,
-    FLOAT,
-    Float,
-    INT,
-    INTEGER,
-    Integer,
-    Interval,
-    JSON,
-    LargeBinary,
-    NCHAR,
-    NVARCHAR,
-    NUMERIC,
-    Numeric,
-    PickleType,
-    REAL,
-    SMALLINT,
+
+    # 第一种 兼容多个后端的数据库，并且和Python内置数据结构关联 ,如String,特点，首字母大写，其余小写
+    #########################################################################################################################################
+    # 整型
     SmallInteger,
+    BigInteger,
+    Integer,
+    # 浮点型
+    Float,  # 浮点小数.
+    # 精确的浮点型
+    # 定点小数, Python 中表现为 Decimal .
+    Numeric,
+    # 字符串
+    # https://www.cnblogs.com/zejin2008/p/6606120.html
+    # https://blog.csdn.net/Gane_Cheng/article/details/52316408
+    # 字符串类型, Python 中表现为 Unicode , 数据库表现为 VARCHAR , 通常都需要指定长度.
     String,
-    TEXT,
-    TIME,
-    TIMESTAMP,
+    # 文档
     Text,
+    # 长文本类型, Python 表现为 Unicode , 数据库表现为 TEXT .
     Time,
-    TypeDecorator,
+    # 日期
+    DateTime,
+    # Python中的datetime.date	日期
+    Date,
+
+    # 布尔
+    Boolean,
+    PickleType,
+    # Python 对象的序列化类型.
+    Enum,
+    # Enum (*enums, **kw)
+    # 枚举类型, 根据数据库支持情况, SQLAlchemy 会使用原生支持或者使用 VARCHAR 类型附加约束的方式实现. 原生支持中涉及新类型创建, 细节在实例化时控制.
+    LargeBinary,
+    # 字节数据. 根据数据库实现, 在实例化时可能需要指定大小.
+    Binary,
+    # 字节数据. 根据数据库实现, 在实例化时可能需要指定大小.
+
     Unicode,
     UnicodeText,
+
+    # 第二种写什么 create table就是什么，如VARCHAR,特点，全大写
+    #########################################################################################################################################
+    SMALLINT,  # 2个字节
+    INTEGER,
+    INT,  # 4个字节
+    BIGINT,  # 存储大小为 8 个字节
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    # binary 与 varbinary 类型和char与varchar类型是相似的，只是他们存储的是二进制数据，也就是说他们是包含字节流而不是字符流，他们有二进制字符的集合和顺序，他们的对比，排序是基于字节的数值进行的
+    # binary与varbinary的最大长度和char与varchar是一样的，只不过他们是定义字节长度，而char和varchar对应的是字符长度
+    BINARY,
     VARBINARY,
-    VARCHAR,
+    CHAR,  # 不可变。用于长度不怎么变或者相近的
+    VARCHAR,  # 可变长度的
+    FLOAT,
+    DATE,
+    DATETIME,
+    NUMERIC,
+    DECIMAL,
+    TIME,
+    TIMESTAMP,
+    TEXT,
+
+    #########################################################################################################################################
+    ARRAY,
+    BLOB,
+    BOOLEAN,
+    CLOB,
+    Interval,
+    JSON,
+    NCHAR,
+    NVARCHAR,
+    REAL,
+    TypeDecorator,
+
 )
 
 __version__ = '1.2.7'
